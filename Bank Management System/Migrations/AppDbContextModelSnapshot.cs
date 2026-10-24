@@ -153,6 +153,33 @@ namespace Bank_Management_System.Migrations
 
                     b.ToTable("Managers", (string)null);
                 });
+
+            modelBuilder.Entity("Bank_Management_System.Models.Transaction", b =>
+                {
+                    b.Property<int>("TransactionNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionNumber"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Date")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("TransactionNumber");
+
+                    b.ToTable("Transactions", (string)null);
+                });
 #pragma warning restore 612, 618
         }
     }
