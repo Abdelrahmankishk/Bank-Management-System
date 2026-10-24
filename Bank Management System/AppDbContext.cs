@@ -13,6 +13,8 @@ namespace Bank_Management_System;
     {
     public DbSet<Branch> branches {  get; set; }
     public DbSet<Manager> managers { get; set; }
+    public DbSet<Account> accounts { get; set; }
+    public DbSet<Customer> customers { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(@"Server=.;Database=BankManagementSysrem;Trusted_Connection=True;TrustServerCertificate=True;");
@@ -21,6 +23,8 @@ namespace Bank_Management_System;
     {
         modelBuilder.ApplyConfiguration(new BranchConfiguration());
         modelBuilder.ApplyConfiguration(new ManagerConfiguration());
+        modelBuilder.ApplyConfiguration(new AccountConfiguration());
+        modelBuilder.ApplyConfiguration(new CustomersConfiguration());
     }
     
 }
