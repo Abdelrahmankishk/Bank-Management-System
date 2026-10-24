@@ -12,6 +12,7 @@ namespace Bank_Management_System;
     public class AppDbContext :DbContext
     {
     public DbSet<Branch> branches {  get; set; }
+    public DbSet<Manager> managers { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(@"Server=.;Database=BankManagementSysrem;Trusted_Connection=True;TrustServerCertificate=True;");
@@ -19,6 +20,7 @@ namespace Bank_Management_System;
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new BranchConfiguration());
+        modelBuilder.ApplyConfiguration(new ManagerConfiguration());
     }
     
 }
