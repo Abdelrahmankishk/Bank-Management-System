@@ -55,6 +55,26 @@ namespace Bank_Management_System.Migrations
                     b.HasIndex("BranchId");
 
                     b.ToTable("Accounts", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccountNumber = "ACC-9001-2026",
+                            BranchId = 1,
+                            CurrentBalance = 15430.75m,
+                            OpeningDate = new DateTime(2024, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            accountType = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccountNumber = "ACC-9002-2026",
+                            BranchId = 2,
+                            CurrentBalance = 2450m,
+                            OpeningDate = new DateTime(2025, 6, 20, 0, 0, 0, 0, DateTimeKind.Utc),
+                            accountType = 1
+                        });
                 });
 
             modelBuilder.Entity("Bank_Management_System.Models.Branch", b =>
@@ -83,6 +103,22 @@ namespace Bank_Management_System.Migrations
                     b.HasKey("Code");
 
                     b.ToTable("Branches", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Code = 1,
+                            Address = "123 Financial St",
+                            Name = "Main Branch",
+                            PhoneNumber = "555-0100"
+                        },
+                        new
+                        {
+                            Code = 2,
+                            Address = "456 Market Ave",
+                            Name = "Downtown Branch",
+                            PhoneNumber = "555-0200"
+                        });
                 });
 
             modelBuilder.Entity("Bank_Management_System.Models.Customer", b =>
@@ -126,11 +162,35 @@ namespace Bank_Management_System.Migrations
                         .IsUnique();
 
                     b.ToTable("Customers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "789 Oak Rd",
+                            DateOfBirth = new DateOnly(1985, 4, 12),
+                            Email = "john@example.com",
+                            FullName = "John Doe",
+                            NationalID = "NAT-1001",
+                            PhoneNumber = "555-3333",
+                            Type = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "100 Industrial Pkwy",
+                            DateOfBirth = new DateOnly(2010, 1, 1),
+                            Email = "contact@acme.com",
+                            FullName = "Acme Corp",
+                            NationalID = "NAT-2002",
+                            PhoneNumber = "555-4444",
+                            Type = 1
+                        });
                 });
 
             modelBuilder.Entity("Bank_Management_System.Models.CustomerAccount", b =>
                 {
-                    b.Property<int>("cutomerId")
+                    b.Property<int>("customerId")
                         .HasColumnType("int");
 
                     b.Property<int>("accountId")
@@ -144,19 +204,32 @@ namespace Bank_Management_System.Migrations
                     b.Property<int>("accountStatus")
                         .HasColumnType("int");
 
-                    b.Property<int>("customerId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ownershipType")
                         .HasColumnType("int");
 
-                    b.HasKey("cutomerId", "accountId");
+                    b.HasKey("customerId", "accountId");
 
                     b.HasIndex("accountId");
 
-                    b.HasIndex("customerId");
-
                     b.ToTable("customersAccount");
+
+                    b.HasData(
+                        new
+                        {
+                            customerId = 1,
+                            accountId = 1,
+                            OwnerShipDate = new DateTime(2024, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc),
+                            accountStatus = 0,
+                            ownershipType = 0
+                        },
+                        new
+                        {
+                            customerId = 2,
+                            accountId = 2,
+                            OwnerShipDate = new DateTime(2025, 6, 20, 0, 0, 0, 0, DateTimeKind.Utc),
+                            accountStatus = 0,
+                            ownershipType = 1
+                        });
                 });
 
             modelBuilder.Entity("Bank_Management_System.Models.Manager", b =>
@@ -194,6 +267,26 @@ namespace Bank_Management_System.Migrations
                         .IsUnique();
 
                     b.ToTable("Managers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BranchId = 1,
+                            Email = "alice.smith@bank.com",
+                            FullName = "Alice Smith",
+                            HireDate = new DateOnly(2020, 5, 10),
+                            PhoneNumber = "555-1111"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BranchId = 2,
+                            Email = "bob.jones@bank.com",
+                            FullName = "Bob Jones",
+                            HireDate = new DateOnly(2021, 8, 15),
+                            PhoneNumber = "555-2222"
+                        });
                 });
 
             modelBuilder.Entity("Bank_Management_System.Models.Transaction", b =>
@@ -226,6 +319,26 @@ namespace Bank_Management_System.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("Transactions", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            TransactionNumber = 1,
+                            AccountId = 1,
+                            Amount = 500m,
+                            Date = new DateTime(2026, 1, 10, 10, 30, 0, 0, DateTimeKind.Utc),
+                            Note = "Initial Deposit",
+                            Type = 0
+                        },
+                        new
+                        {
+                            TransactionNumber = 2,
+                            AccountId = 2,
+                            Amount = 150.5m,
+                            Date = new DateTime(2026, 2, 1, 14, 15, 0, 0, DateTimeKind.Utc),
+                            Note = "ATM Withdrawal",
+                            Type = 1
+                        });
                 });
 
             modelBuilder.Entity("Bank_Management_System.Models.Account", b =>
@@ -242,13 +355,13 @@ namespace Bank_Management_System.Migrations
             modelBuilder.Entity("Bank_Management_System.Models.CustomerAccount", b =>
                 {
                     b.HasOne("Bank_Management_System.Models.Account", "account")
-                        .WithMany()
+                        .WithMany("customers")
                         .HasForeignKey("accountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Bank_Management_System.Models.Customer", "customer")
-                        .WithMany()
+                        .WithMany("accounts")
                         .HasForeignKey("customerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -282,6 +395,8 @@ namespace Bank_Management_System.Migrations
 
             modelBuilder.Entity("Bank_Management_System.Models.Account", b =>
                 {
+                    b.Navigation("customers");
+
                     b.Navigation("transactions");
                 });
 
@@ -291,6 +406,11 @@ namespace Bank_Management_System.Migrations
 
                     b.Navigation("manager")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Bank_Management_System.Models.Customer", b =>
+                {
+                    b.Navigation("accounts");
                 });
 #pragma warning restore 612, 618
         }

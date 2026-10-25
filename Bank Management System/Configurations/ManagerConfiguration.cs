@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,6 +34,12 @@ public class ManagerConfiguration : IEntityTypeConfiguration<Manager>
             .OnDelete(DeleteBehavior.Restrict);
         #endregion
 
+        #region Data
+        builder.HasData(
+            new Manager { Id = 1, FullName = "Alice Smith", Email = "alice.smith@bank.com", PhoneNumber = "555-1111", HireDate = new DateOnly(2020, 5, 10), BranchId = 1 },
+            new Manager { Id = 2, FullName = "Bob Jones", Email = "bob.jones@bank.com", PhoneNumber = "555-2222", HireDate = new DateOnly(2021, 8, 15), BranchId = 2 }
+        );
+        #endregion
     }
 }
 

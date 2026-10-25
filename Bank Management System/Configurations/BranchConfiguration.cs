@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,6 +35,13 @@ public class BranchConfiguration : IEntityTypeConfiguration<Branch>
             .WithOne(a => a.branch)
             .HasForeignKey(b => b.BranchId)
             .OnDelete(DeleteBehavior.Restrict);
+        #endregion
+
+        #region Data
+        builder.HasData(
+            new Branch { Code = 1, Name = "Main Branch", Address = "123 Financial St", PhoneNumber = "555-0100" },
+            new Branch { Code = 2, Name = "Downtown Branch", Address = "456 Market Ave", PhoneNumber = "555-0200" }
+        );
         #endregion
     }
 }

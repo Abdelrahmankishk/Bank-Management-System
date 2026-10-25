@@ -12,7 +12,7 @@ namespace Bank_Management_System.Models;
         public int accountId { get; set; }
         public Account account { get; set; }
 
-        public int cutomerId { get; set; }
+        public int customerId { get; set; }
         public Customer customer { get; set; }
         public DateTime OwnerShipDate { get; set; }
         public OwnershipType ownershipType { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Bank_Management_System.Configurations;
 using Bank_Management_System.Models;
+using Bank_Management_System.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -31,13 +32,18 @@ namespace Bank_Management_System;
         modelBuilder.ApplyConfiguration(new TransactionConfiguration());
 
         #region Account Customer Many to Many
-        #endregion
         modelBuilder.Entity<CustomerAccount>()
-                    .HasKey(ca => new { ca.cutomerId, ca.accountId });
+                    .HasKey(ca => new { ca.customerId, ca.accountId });
 
         modelBuilder.Entity<CustomerAccount>()
-                    .Property(ca=>ca.OwnerShipDate)
+                    .Property(ca => ca.OwnerShipDate)
                     .HasDefaultValueSql("GETDATE()");
+        #endregion
+
+        modelBuilder.Entity<CustomerAccount>().HasData(
+            new CustomerAccount { customerId = 1, accountId = 1, OwnerShipDate = new DateTime(2024, 1, 15, 0, 0, 0, DateTimeKind.Utc), ownershipType = OwnershipType.PrimaryHolder, accountStatus = AccountStatus.Active },
+            new CustomerAccount { customerId = 2, accountId = 2, OwnerShipDate = new DateTime(2025, 6, 20, 0, 0, 0, DateTimeKind.Utc), ownershipType = OwnershipType.Co_Holder, accountStatus = AccountStatus.Active }
+        );
     }
     
 }

@@ -18,5 +18,6 @@ namespace Bank_Management_System.Models;
     public Branch branch { get; set; } = default!;
 
     public ICollection<Transaction> transactions { get; set; } = new List<Transaction>();
+    public ICollection<CustomerAccount> customers { get; set; } = new List<CustomerAccount>();
 }
 

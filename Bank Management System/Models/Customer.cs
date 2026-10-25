@@ -17,5 +17,7 @@ namespace Bank_Management_System.Models;
     public string NationalID { get; set; } = default!;
     public CustomerType Type { get; set; }
     public DateOnly DateOfBirth { get; set; }
+
+    public ICollection<CustomerAccount> accounts  { get; set; } = new List<CustomerAccount>();
 }
 
