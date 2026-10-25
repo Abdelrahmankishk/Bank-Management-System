@@ -14,5 +14,9 @@ namespace Bank_Management_System.Models;
     public double CurrentBalance { get; set; }
     public AccountType accountType { get; set; }
     public DateTime OpeningDate { get; set; }
+    public int BranchId { get; set; }
+    public Branch branch { get; set; } = default!;
+
+    public ICollection<Transaction> transactions { get; set; } = new List<Transaction>();
 }
 

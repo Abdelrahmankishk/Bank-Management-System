@@ -14,5 +14,7 @@ namespace Bank_Management_System.Models;
     public double Amount { get; set; }
     public string? Note { get; set; }
     public TransactionType Type { get; set; }
+    public int AccountId { get; set; }
+    public Account account { get; set; } = default!;
 }
 

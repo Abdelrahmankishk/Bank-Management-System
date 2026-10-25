@@ -35,6 +35,9 @@ namespace Bank_Management_System.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("CurrentBalance")
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("Balance");
@@ -48,6 +51,8 @@ namespace Bank_Management_System.Migrations
                     b.HasKey("Id");
 
                     b.HasAlternateKey("AccountNumber");
+
+                    b.HasIndex("BranchId");
 
                     b.ToTable("Accounts", (string)null);
                 });
@@ -123,6 +128,37 @@ namespace Bank_Management_System.Migrations
                     b.ToTable("Customers", (string)null);
                 });
 
+            modelBuilder.Entity("Bank_Management_System.Models.CustomerAccount", b =>
+                {
+                    b.Property<int>("cutomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("accountId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("OwnerShipDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<int>("accountStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("customerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ownershipType")
+                        .HasColumnType("int");
+
+                    b.HasKey("cutomerId", "accountId");
+
+                    b.HasIndex("accountId");
+
+                    b.HasIndex("customerId");
+
+                    b.ToTable("customersAccount");
+                });
+
             modelBuilder.Entity("Bank_Management_System.Models.Manager", b =>
                 {
                     b.Property<int>("Id")
@@ -130,6 +166,9 @@ namespace Bank_Management_System.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BranchId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -151,6 +190,9 @@ namespace Bank_Management_System.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BranchId")
+                        .IsUnique();
+
                     b.ToTable("Managers", (string)null);
                 });
 
@@ -161,6 +203,9 @@ namespace Bank_Management_System.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionNumber"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -178,7 +223,74 @@ namespace Bank_Management_System.Migrations
 
                     b.HasKey("TransactionNumber");
 
+                    b.HasIndex("AccountId");
+
                     b.ToTable("Transactions", (string)null);
+                });
+
+            modelBuilder.Entity("Bank_Management_System.Models.Account", b =>
+                {
+                    b.HasOne("Bank_Management_System.Models.Branch", "branch")
+                        .WithMany("accounts")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("branch");
+                });
+
+            modelBuilder.Entity("Bank_Management_System.Models.CustomerAccount", b =>
+                {
+                    b.HasOne("Bank_Management_System.Models.Account", "account")
+                        .WithMany()
+                        .HasForeignKey("accountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bank_Management_System.Models.Customer", "customer")
+                        .WithMany()
+                        .HasForeignKey("customerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("account");
+
+                    b.Navigation("customer");
+                });
+
+            modelBuilder.Entity("Bank_Management_System.Models.Manager", b =>
+                {
+                    b.HasOne("Bank_Management_System.Models.Branch", "Branch")
+                        .WithOne("manager")
+                        .HasForeignKey("Bank_Management_System.Models.Manager", "BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+                });
+
+            modelBuilder.Entity("Bank_Management_System.Models.Transaction", b =>
+                {
+                    b.HasOne("Bank_Management_System.Models.Account", "account")
+                        .WithMany("transactions")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("account");
+                });
+
+            modelBuilder.Entity("Bank_Management_System.Models.Account", b =>
+                {
+                    b.Navigation("transactions");
+                });
+
+            modelBuilder.Entity("Bank_Management_System.Models.Branch", b =>
+                {
+                    b.Navigation("accounts");
+
+                    b.Navigation("manager")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

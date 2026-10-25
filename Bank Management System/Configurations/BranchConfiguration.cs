@@ -29,7 +29,12 @@ public class BranchConfiguration : IEntityTypeConfiguration<Branch>
                .IsRequired()
                .HasMaxLength(100);
 
-
+        #region Branch Account one to many Relationship
+        builder.HasMany(b => b.accounts)
+            .WithOne(a => a.branch)
+            .HasForeignKey(b => b.BranchId)
+            .OnDelete(DeleteBehavior.Restrict);
+        #endregion
     }
 }
 

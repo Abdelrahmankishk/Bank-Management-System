@@ -16,6 +16,8 @@ namespace Bank_Management_System;
     public DbSet<Account> accounts { get; set; }
     public DbSet<Customer> customers { get; set; }
     public DbSet<Transaction> transactions { get; set; }
+
+    public DbSet<CustomerAccount> customersAccount { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(@"Server=.;Database=BankManagementSysrem;Trusted_Connection=True;TrustServerCertificate=True;");
@@ -27,6 +29,15 @@ namespace Bank_Management_System;
         modelBuilder.ApplyConfiguration(new AccountConfiguration());
         modelBuilder.ApplyConfiguration(new CustomersConfiguration());
         modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+
+        #region Account Customer Many to Many
+        #endregion
+        modelBuilder.Entity<CustomerAccount>()
+                    .HasKey(ca => new { ca.cutomerId, ca.accountId });
+
+        modelBuilder.Entity<CustomerAccount>()
+                    .Property(ca=>ca.OwnerShipDate)
+                    .HasDefaultValueSql("GETDATE()");
     }
     
 }

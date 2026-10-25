@@ -26,6 +26,13 @@ public class ManagerConfiguration : IEntityTypeConfiguration<Manager>
                .IsRequired()
                .HasMaxLength(100);
 
+        #region Branch Manager One to One Relationship
+        builder.HasOne(m => m.Branch)
+            .WithOne(b => b.manager)
+            .HasForeignKey<Manager>(m => m.BranchId)
+            .OnDelete(DeleteBehavior.Restrict);
+        #endregion
+
     }
 }
 

@@ -25,6 +25,11 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .HasColumnName("Balance")
             .HasColumnType("decimal(18,2)");
 
+        #region Account Transaction one to many Relationship
+        builder.HasMany(a => a.transactions)
+               .WithOne(t => t.account)
+               .HasForeignKey(a => a.AccountId);
+        #endregion
     }
 }
 

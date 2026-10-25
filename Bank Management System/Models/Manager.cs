@@ -14,5 +14,7 @@ namespace Bank_Management_System.Models;
     public string PhoneNumber { get; set; } = default!;
     public DateOnly HireDate { get; set; }
 
+    public int BranchId { get; set; }
+    public Branch Branch { get; set; } = default!;
 }
 

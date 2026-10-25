@@ -12,5 +12,8 @@ namespace Bank_Management_System.Models;
     public string Name { get; set; } = default!;
     public string Address { get; set; } = default!;
     public string PhoneNumber { get; set; } = default!;
+    public Manager manager { get; set; } = default!;
+
+    public ICollection<Account> accounts { get; set; } = new List<Account>();
 }
 
