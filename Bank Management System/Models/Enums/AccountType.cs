@@ -8,8 +8,8 @@ namespace Bank_Management_System.Models.Enums;
 
     public enum AccountType
     {
-        Savings,
-        Current,
-        Business
+        Savings = 1,
+        Current = 2,
+        Business = 3
     }
 

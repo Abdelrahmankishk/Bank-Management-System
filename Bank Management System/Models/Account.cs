@@ -9,6 +9,7 @@ namespace Bank_Management_System.Models;
 
     public class Account
     {
+    public static int counter = 9003;
     public int Id { get; set; }
     public string AccountNumber { get; set; } = default!;
     public double CurrentBalance { get; set; }

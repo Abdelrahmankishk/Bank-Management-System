@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Bank_Management_System.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bank_Management_System
 {
@@ -13,12 +14,13 @@ namespace Bank_Management_System
             while (isExit) {
                 Console.Clear();
                 MainMenu();
-                int choice = ConsoleHelperV2.ConsoleHelper.ReadInt("Enter choice: ",0,5);
+                int choice = ConsoleHelperV2.ConsoleHelper.ReadInt("Enter choice ",0,5);
                 switch (choice) {
                     case 1:
                         AddCustomer(dbContext);
                         break;
                     case 2:
+                        AddAccount(dbContext);
                         break;
                     case 3:
                         break;
@@ -98,6 +100,60 @@ namespace Bank_Management_System
             ConsoleHelperV2.ConsoleHelper.Wait();
         }
 
+        private static void AddAccount(AppDbContext db)
+        {
+            ConsoleHelperV2.ConsoleHelper.PrintSubHeader("Open New Account");
+
+            Console.WriteLine("Account Type");
+            ConsoleHelperV2.ConsoleHelper.Info("1) Savings");
+            ConsoleHelperV2.ConsoleHelper.Info("2) Current");
+            ConsoleHelperV2.ConsoleHelper.Info("3) Business");
+            var AccountTypreChoice = ConsoleHelperV2.ConsoleHelper.ReadInt("Choice", 1, 3);
+            var branchCode = ConsoleHelperV2.ConsoleHelper.ReadInt("Branch Code         ");
+            var branch = db.branches.FirstOrDefault(b=>b.Code == branchCode);
+            if (branch == null)
+            {
+                ConsoleHelperV2.ConsoleHelper.Error("Branch Not Found");
+                ConsoleHelperV2.ConsoleHelper.Wait();
+                return;
+            }
+            var customerId = ConsoleHelperV2.ConsoleHelper.ReadInt("Customer Code         ");
+            var customer = db.customers.FirstOrDefault(c=>c.Id == customerId);
+            if (customer == null) {
+                ConsoleHelperV2.ConsoleHelper.Error("Customer Not Found");
+                ConsoleHelperV2.ConsoleHelper.Wait();
+                return;
+            }
+            Console.WriteLine("Ownership Type");
+            ConsoleHelperV2.ConsoleHelper.Info("1) Primary");
+            ConsoleHelperV2.ConsoleHelper.Info("2) CoHolder");
+            var OwnershipTypechoice = ConsoleHelperV2.ConsoleHelper.ReadInt("Choice: ",1,2);
+
+            var newAccount = new Models.Account()
+            {
+                AccountNumber = $"ACC-{Account.counter++}-2026",
+                accountType = (Models.Enums.AccountType)AccountTypreChoice,
+                CurrentBalance = 0,
+                BranchId = branch.Code,
+                OpeningDate = DateTime.Now,
+            };
+            db.accounts.Add(newAccount);
+
+            var newCustomerAccount = new Models.CustomerAccount() { 
+                customer  = customer,
+                account = newAccount,
+                accountStatus = Models.Enums.AccountStatus.Active,
+                OwnerShipDate = DateTime.Now,
+                ownershipType = (Models.Enums.OwnershipType)OwnershipTypechoice
+            };
+            db.customersAccount.Add(newCustomerAccount);
+
+            db.SaveChanges();
+
+            ConsoleHelperV2.ConsoleHelper.Success($"Account '{newAccount.AccountNumber}' created and linked to customer {customer.Id} as {newCustomerAccount.ownershipType} owner");
+            ConsoleHelperV2.ConsoleHelper.Wait();
+
+        }
 
         private static DateOnly ReadDate(string message)
         {

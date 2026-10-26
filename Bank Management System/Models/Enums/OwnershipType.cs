@@ -8,7 +8,7 @@ namespace Bank_Management_System.Models.Enums;
 
     public enum OwnershipType
     {
-        PrimaryHolder,
-        Co_Holder
+        PrimaryHolder = 1,
+        Co_Holder = 2
     }
 
