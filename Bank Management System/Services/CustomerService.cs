@@ -21,6 +21,10 @@ namespace Bank_Management_System.Services;
         
     }
 
-
+    public Customer GetCusotmerById(int id)
+    {
+        var customer = db.customers.FirstOrDefault(c => c.Id == id);
+        return customer!;
+    }
 }
 

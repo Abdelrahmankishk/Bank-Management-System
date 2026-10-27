@@ -10,4 +10,6 @@ namespace Bank_Management_System.Contracts;
     public interface ICustomer
     {
     public (bool success, string msg) AddCustomer(Customer customer);
+
+    public Customer GetCusotmerById(int id);
     }

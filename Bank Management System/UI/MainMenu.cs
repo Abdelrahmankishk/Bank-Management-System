@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Bank_Management_System.UI
 {
-    public class MainMenu(ICustomerDisplay customerDisplay)
+    public class MainMenu(ICustomerDisplay customerDisplay, IAccountDisplay accountDisplay)
     {
         
         public void Run()
@@ -34,6 +34,8 @@ namespace Bank_Management_System.UI
                         ConsoleHelper.Wait();
                         break;
                     case 2:
+                        accountDisplay.ShowAddNewAccountuccess();
+                        ConsoleHelper.Wait();
                         break;
                     case 3:
                         break;

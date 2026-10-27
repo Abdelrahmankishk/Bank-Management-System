@@ -15,67 +15,18 @@ namespace Bank_Management_System
             dbContext.Database.Migrate();
 
             var CustomerService = new CustomerService(dbContext);
-            ICustomerDisplay CustomerUI = new CustomerUI(CustomerService);
-            MainMenu menu = new(CustomerUI);
+            var branchService = new BranchService(dbContext);
+            var customerAccountService = new CustomerAccountService(dbContext);
+            var accountService = new AccountService(dbContext,branchService,CustomerService,customerAccountService);
+            var CustomerUI = new CustomerUI(CustomerService);
+            var AccountUI = new AccountUI(accountService);
+            MainMenu menu = new(CustomerUI,AccountUI);
             menu.Run();
         }
 
         
 
         
-
-        //private static void AddAccount(AppDbContext db)
-        //{
-        //    ConsoleHelperV2.ConsoleHelper.PrintSubHeader("Open New Account");
-
-        //    Console.WriteLine("Account Type");
-        //    ConsoleHelperV2.ConsoleHelper.Info("1) Savings");
-        //    ConsoleHelperV2.ConsoleHelper.Info("2) Current");
-        //    ConsoleHelperV2.ConsoleHelper.Info("3) Business");
-        //    var AccountTypreChoice = ConsoleHelperV2.ConsoleHelper.ReadInt("Choice", 1, 3);
-        //    var branchCode = ConsoleHelperV2.ConsoleHelper.ReadInt("Branch Code         ");
-        //    var branch = db.branches.FirstOrDefault(b=>b.Code == branchCode);
-        //    if (branch == null)
-        //    {
-        //        ConsoleHelperV2.ConsoleHelper.Error("Branch Not Found");
-        //        ConsoleHelperV2.ConsoleHelper.Wait();
-        //        return;
-        //    }
-        //    var customerId = ConsoleHelperV2.ConsoleHelper.ReadInt("Customer Id         ");
-        //    var customer = db.customers.FirstOrDefault(c=>c.Id == customerId);
-        //    if (customer == null) {
-        //        ConsoleHelperV2.ConsoleHelper.Error("Customer Not Found");
-        //        ConsoleHelperV2.ConsoleHelper.Wait();
-        //        return;
-        //    }
-        //    Console.WriteLine("Ownership Type");
-        //    ConsoleHelperV2.ConsoleHelper.Info("1) Primary");
-        //    ConsoleHelperV2.ConsoleHelper.Info("2) CoHolder");
-        //    var OwnershipTypechoice = ConsoleHelperV2.ConsoleHelper.ReadInt("Choice: ",1,2);
-
-        //    var newAccount = new Models.Account()
-        //    {
-        //        AccountNumber = $"ACC-{Account.counter++}-2026",
-        //        accountType = (Models.Enums.AccountType)AccountTypreChoice,
-        //        CurrentBalance = 0,
-        //        BranchId = branch.Code,
-        //        OpeningDate = DateTime.Now,
-        //    };
-        //    db.accounts.Add(newAccount);
-
-        //    var newCustomerAccount = new Models.CustomerAccount() { 
-        //        customer  = customer,
-        //        account = newAccount,
-        //        accountStatus = Models.Enums.AccountStatus.Active,
-        //        OwnerShipDate = DateTime.Now,
-        //        ownershipType = (Models.Enums.OwnershipType)OwnershipTypechoice
-        //    };
-        //    db.customersAccount.Add(newCustomerAccount);
-
-        //    db.SaveChanges();
-
-        //    ConsoleHelperV2.ConsoleHelper.Success($"Account '{newAccount.AccountNumber}' created and linked to customer {customer.Id} as {newCustomerAccount.ownershipType} owner");
-        //    ConsoleHelperV2.ConsoleHelper.Wait();
 
 
         private static void UpdateAccountStatus(AppDbContext db)
