@@ -12,5 +12,7 @@ namespace Bank_Management_System.Contracts;
    public (bool success, string msg) AddAccount(Account account,CustomerAccount customerAccount);
 
     public int getNextAccountId();
+
+    public Account GetAccountById(string code);
 }
 

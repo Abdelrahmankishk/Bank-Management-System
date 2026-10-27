@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Bank_Management_System.Services
 {
-    public class AccountService(AppDbContext dbContext, IBranch branch, ICustomer customer,ICustomerAccount customerAccountService) : IAccount
+    public class AccountService(AppDbContext dbContext, IBranch branch, ICustomer customer, ICustomerAccount customerAccountService) : IAccount
     {
         public (bool success, string msg) AddAccount(Account account, CustomerAccount customerAccount)
         {
@@ -23,12 +23,14 @@ namespace Bank_Management_System.Services
             dbContext.accounts.Add(account);
             dbContext.SaveChanges();
 
-            var CustomerAccountAddStatus=customerAccountService.AddCustomerAccount(customerAccount);
+            var CustomerAccountAddStatus = customerAccountService.AddCustomerAccount(customerAccount);
             if (CustomerAccountAddStatus.success == false)
                 return (false, "Error; Can not add Account to the customer");
 
             return (true, $"Account '{account.AccountNumber}' created {CustomerAccountAddStatus.msg}");
         }
+
+        public Account GetAccountById(string code) => dbContext.accounts.FirstOrDefault(a => a.AccountNumber == $"ACC-{code}-2026");
 
         public int getNextAccountId() => dbContext.accounts.Count();
 

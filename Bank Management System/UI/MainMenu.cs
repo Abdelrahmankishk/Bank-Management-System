@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Bank_Management_System.UI
 {
-    public class MainMenu(ICustomerDisplay customerDisplay, IAccountDisplay accountDisplay)
+    public class MainMenu(ICustomerDisplay customerDisplay, IAccountDisplay accountDisplay , ICustomerAccountDisplay customerAccountDisplay)
     {
         
         public void Run()
@@ -38,6 +38,8 @@ namespace Bank_Management_System.UI
                         ConsoleHelper.Wait();
                         break;
                     case 3:
+                        customerAccountDisplay.ShowUpdateAccountStatusSuccess();
+                        ConsoleHelper.Wait();
                         break;
                     case 4:
                         break;
