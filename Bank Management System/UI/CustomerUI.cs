@@ -12,9 +12,8 @@ using System.Threading.Tasks;
 
 namespace Bank_Management_System.UI;
 
-    public  class CustomerUI(AppDbContext dbContext)
+    public  class CustomerUI(ICustomer customerService) : ICustomerDisplay
 {
-    private readonly ICustomer customerService = new CustomerService(dbContext);
 
     public void ShowAddNewCustomerSuccess()
     {

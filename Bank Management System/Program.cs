@@ -1,4 +1,5 @@
-﻿using Bank_Management_System.Models;
+﻿using Bank_Management_System.Contracts;
+using Bank_Management_System.Models;
 using Bank_Management_System.Services;
 using Bank_Management_System.UI;
 using ConsoleHelperV2;
@@ -13,7 +14,10 @@ namespace Bank_Management_System
             using var dbContext = new AppDbContext();
             dbContext.Database.Migrate();
 
-            MainMenu.Run(dbContext);
+            var CustomerService = new CustomerService(dbContext);
+            ICustomerDisplay CustomerUI = new CustomerUI(CustomerService);
+            MainMenu menu = new(CustomerUI);
+            menu.Run();
         }
 
         

@@ -1,4 +1,5 @@
-﻿using ConsoleHelperV2;
+﻿using Bank_Management_System.Contracts;
+using ConsoleHelperV2;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Bank_Management_System.UI
 {
-    public static class MainMenu
+    public class MainMenu(ICustomerDisplay customerDisplay)
     {
-        public static void Run(AppDbContext dbContext)
+        
+        public void Run()
         {
-            CustomerUI customerUI = new(dbContext);
             bool isExit = true;
             while (isExit)
             {
@@ -29,7 +30,7 @@ namespace Bank_Management_System.UI
                 switch (choice)
                 {
                     case 1:
-                        customerUI.ShowAddNewCustomerSuccess();
+                        customerDisplay.ShowAddNewCustomerSuccess();
                         ConsoleHelper.Wait();
                         break;
                     case 2:
