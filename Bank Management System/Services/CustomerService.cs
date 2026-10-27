@@ -1,10 +1,11 @@
-﻿using Bank_Management_System.Extentions;
+﻿using Bank_Management_System.Contracts;
+using Bank_Management_System.Extentions;
 using Bank_Management_System.Models;
 using Bank_Management_System.UI;
 using ConsoleHelperV2;
 namespace Bank_Management_System.Services;
 
-    public class CustomerService(AppDbContext db)
+    public class CustomerService(AppDbContext db) : ICustomer
     {
      
     public (bool success, string msg) AddCustomer(Customer customer)

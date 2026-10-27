@@ -73,7 +73,6 @@ namespace Bank_Management_System
         //    ConsoleHelperV2.ConsoleHelper.Success($"Account '{newAccount.AccountNumber}' created and linked to customer {customer.Id} as {newCustomerAccount.ownershipType} owner");
         //    ConsoleHelperV2.ConsoleHelper.Wait();
 
-        }
 
         private static void UpdateAccountStatus(AppDbContext db)
         {

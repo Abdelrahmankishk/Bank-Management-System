@@ -1,4 +1,5 @@
-﻿using Bank_Management_System.Extentions;
+﻿using Bank_Management_System.Contracts;
+using Bank_Management_System.Extentions;
 using Bank_Management_System.Models;
 using Bank_Management_System.Services;
 using ConsoleHelperV2;
@@ -13,7 +14,8 @@ namespace Bank_Management_System.UI;
 
     public  class CustomerUI(AppDbContext dbContext)
 {
-    private readonly CustomerService customerService = new(dbContext);
+    private readonly ICustomer customerService = new CustomerService(dbContext);
+
     public void ShowAddNewCustomerSuccess()
     {
         
