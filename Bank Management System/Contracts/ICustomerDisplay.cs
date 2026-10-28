@@ -9,4 +9,5 @@ namespace Bank_Management_System.Contracts;
     public interface ICustomerDisplay
     {
     public void ShowAddNewCustomerSuccess();
+    public void ShowAllCustomers();
     }

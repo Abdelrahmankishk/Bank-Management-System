@@ -30,7 +30,9 @@ namespace Bank_Management_System.UI;
         else
             ConsoleHelper.Error(msg);
     }
-    private (bool success,string msg,Customer customer) GetCustomer()
+
+
+    private (bool success, string msg, Customer customer) GetCustomer()
     {
         ConsoleHelper.PrintHeader("Add New Customer");
         var Name = ConsoleHelper.ReadString("Full Name         ");
@@ -39,7 +41,7 @@ namespace Bank_Management_System.UI;
         if (!NationalId.IsValidNationalID())
         {
             string msg = "National Id must be 14 digit";
-            return (false,msg,default!);
+            return (false, msg, default!);
         }
 
         var DateOfBirth = ConsoleHelperV2.ConsoleHelper.ReadDateOnly("National ID (yyyy-MM-dd)         ");
@@ -49,8 +51,8 @@ namespace Bank_Management_System.UI;
         var Phone = ConsoleHelperV2.ConsoleHelper.ReadString("Phone         ");
         if (!Phone.IsValidPhone())
         {
-            string msg="Enter a valid Phone";
-            return (false,msg,default!);
+            string msg = "Enter a valid Phone";
+            return (false, msg, default!);
         }
         var Address = ConsoleHelperV2.ConsoleHelper.ReadString("Address         ", true);
 
@@ -69,7 +71,31 @@ namespace Bank_Management_System.UI;
             Address = Address,
             Type = choice == 1 ? Models.Enums.CustomerType.Individual : Models.Enums.CustomerType.Organization
         };
-        return (true,"New Customer is Created Successfully",newCustomer);
+        return (true, "New Customer is Created Successfully", newCustomer);
     }
+    public void ShowAllCustomers()
+    {
+        var allCustomer = customerService.ListAllCustomer();
+        ConsoleHelper.PrintSubHeader("All Customer");
+        if(allCustomer.success == false)
+        {
+            ConsoleHelper.Error($"{allCustomer.msg}");
+            return;
+        }
+
+        foreach (var customer in allCustomer.customers) {
+            Console.WriteLine($"#{customer.Id} {customer.FullName} ({customer.Type})");
+            if (customer.accounts.Count == 0) {
+                ConsoleHelper.Warning("(No Accounts)");
+                Console.WriteLine();
+                continue;
+            }
+            foreach (var account in customer.accounts) {
+                ConsoleHelper.PrintOption($"{account.account.AccountNumber}", $"{account.account.accountType}    Balance: {account.account.CurrentBalance}   {account.ownershipType}     {account.accountStatus}     @{account.account.branch.Name}");
+            }
+        }
     }
+
+}
+    
 

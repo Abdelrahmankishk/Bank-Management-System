@@ -46,6 +46,8 @@ namespace Bank_Management_System.UI
                         ConsoleHelper.Wait();
                         break;
                     case 5:
+                        customerDisplay.ShowAllCustomers();
+                        ConsoleHelper.Wait();
                         break;
                     case 0:
                         isExit = false;

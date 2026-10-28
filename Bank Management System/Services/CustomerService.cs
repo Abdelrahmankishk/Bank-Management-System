@@ -3,6 +3,8 @@ using Bank_Management_System.Extentions;
 using Bank_Management_System.Models;
 using Bank_Management_System.UI;
 using ConsoleHelperV2;
+using Microsoft.EntityFrameworkCore;
+
 namespace Bank_Management_System.Services;
 
     public class CustomerService(AppDbContext db) : ICustomer
@@ -25,6 +27,21 @@ namespace Bank_Management_System.Services;
     {
         var customer = db.customers.FirstOrDefault(c => c.Id == id);
         return customer!;
+    }
+
+    public (bool success, string msg, IEnumerable<Customer> customers) ListAllCustomer()
+    {
+        var customers = db.customers
+            .Include(c => c.accounts)
+            .ThenInclude(ca => ca.account)
+            .ThenInclude(a=>a.branch)
+            .ToList();
+
+        if (customers.Any())
+        {
+            return (true, "Returning all Customer with their accounts", customers);
+        }
+        return (false, "Error: Could not retrieve Data", default!);
     }
 }
 

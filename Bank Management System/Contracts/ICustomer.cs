@@ -12,4 +12,6 @@ namespace Bank_Management_System.Contracts;
     public (bool success, string msg) AddCustomer(Customer customer);
 
     public Customer GetCusotmerById(int id);
+
+    public (bool success, string msg, IEnumerable<Customer> customers) ListAllCustomer(); 
     }
