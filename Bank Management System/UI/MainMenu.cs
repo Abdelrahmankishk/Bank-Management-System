@@ -42,6 +42,8 @@ namespace Bank_Management_System.UI
                         ConsoleHelper.Wait();
                         break;
                     case 4:
+                        customerAccountDisplay.ShowRemoveAccountFromCustomerSuccess();
+                        ConsoleHelper.Wait();
                         break;
                     case 5:
                         break;

@@ -9,5 +9,6 @@ namespace Bank_Management_System.Contracts
     public interface ICustomerAccountDisplay
     {
         public void ShowUpdateAccountStatusSuccess();
+        public void ShowRemoveAccountFromCustomerSuccess();
     }
 }

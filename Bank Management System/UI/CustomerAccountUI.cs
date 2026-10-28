@@ -9,10 +9,30 @@ namespace Bank_Management_System.UI
 {
     public class CustomerAccountUI(ICustomerAccount customerAccountSerivce) : ICustomerAccountDisplay
     {
+        public void ShowRemoveAccountFromCustomerSuccess()
+        {
+            ConsoleHelperV2.ConsoleHelper.PrintSubHeader("Remove Account from Customer");
+            var accountNum = ConsoleHelperV2.ConsoleHelper.ReadString("Account Num (9xxx)");
+            var customerId = ConsoleHelperV2.ConsoleHelper.ReadInt("Customer Id");
+
+            bool check = ConsoleHelperV2.ConsoleHelper.Confirm($"Are You Sure you want to delete Account from Customer '{customerId}'");
+            if (check == false)
+            {
+                ConsoleHelperV2.ConsoleHelper.Warning("Account is not deleted");
+                return;
+            }
+           var RemoveResult= customerAccountSerivce.RemoveAccountFromCustomer(customerId, accountNum);
+            if (RemoveResult.success == false) {
+                ConsoleHelperV2.ConsoleHelper.Error(RemoveResult.msg);
+                return;
+            }
+           ConsoleHelperV2.ConsoleHelper.Success(RemoveResult.msg);
+        }
+
         public void ShowUpdateAccountStatusSuccess()
         {
             ConsoleHelperV2.ConsoleHelper.PrintSubHeader("Update Account Status");
-            var accountNum = ConsoleHelperV2.ConsoleHelper.ReadString("Branch Code (9xxx");
+            var accountNum = ConsoleHelperV2.ConsoleHelper.ReadString("Account Num (9xxx)");
             var customerId = ConsoleHelperV2.ConsoleHelper.ReadInt("Customer Id");
 
             Console.WriteLine("New Status");

@@ -14,5 +14,6 @@ namespace Bank_Management_System.Contracts
 
         public CustomerAccount GetCustomerAccountByAccountandCutomerIDs(int AccountId, int CustomerID);
         public (bool success, string msg) UpdateAccountStatus(AccountStatus status, int CustomerId, string AccountCode);
+        public (bool success, string msg) RemoveAccountFromCustomer( int CustomerId, string AccountCode);
     }
 }
