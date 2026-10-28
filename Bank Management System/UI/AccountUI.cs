@@ -2,6 +2,7 @@
 using Bank_Management_System.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Bank_Management_System.UI
 {
     public class AccountUI(IAccount accountService) : IAccountDisplay
     {
+        private static int Counter = 100;
         public void ShowAddNewAccountuccess()
         {
             var newAccount = GetAccountData();
@@ -47,6 +49,9 @@ namespace Bank_Management_System.UI
             var OwnershipTypechoice = ConsoleHelperV2.ConsoleHelper.ReadInt("Choice: ", 1, 2);
 
             int AccountNextID = accountService.getNextAccountId() + 1;
+            if(accountService.GetAccountById($"{9000 + AccountNextID}") != default ){
+                AccountNextID = AccountNextID + ++Counter;
+            }
             var newAccount = new Models.Account()
             {
                 AccountNumber = $"ACC-{(9000 + AccountNextID)}-2026",

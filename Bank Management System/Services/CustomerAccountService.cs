@@ -55,7 +55,7 @@ namespace Bank_Management_System.Services
 
             var CustomerAccount = GetCustomerAccountByAccountandCutomerIDs(account.Id, customer.Id);
             if (CustomerAccount == null) 
-                return (false, $"Account '{account.AccountNumber}' does not belong to Customer ");
+                return (false, $"Account '{account.AccountNumber}' does not belong to Customer {CustomerId}");
 
             dbContext.customersAccount.Remove(CustomerAccount);
             dbContext.SaveChanges();

@@ -13,7 +13,7 @@ namespace Bank_Management_System
         {
             using var dbContext = new AppDbContext();
             dbContext.Database.Migrate();
-
+            Console.WriteLine(dbContext.accounts.Count());
             var CustomerService = new CustomerService(dbContext);
             var branchService = new BranchService(dbContext);
 
